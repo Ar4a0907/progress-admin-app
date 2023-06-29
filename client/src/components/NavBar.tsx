@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 import { useUserStore } from '../store/UserStore';
-import { useNavigate } from "react-router-dom";
 import { CLIENTS_ROUTE, LOGIN_ROUTE, USERS_ROUTE } from '../utils/consts';
 
 export const NavBar = observer(() => {
@@ -14,8 +14,8 @@ export const NavBar = observer(() => {
         setIsAuth(false);
         setUser({});
         sessionStorage.removeItem('token');
-        navigate(LOGIN_ROUTE)
-    }
+        navigate(LOGIN_ROUTE);
+    };
 
     return (
         <Navbar bg="dark" data-bs-theme="dark">

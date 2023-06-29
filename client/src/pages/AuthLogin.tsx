@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -9,9 +9,15 @@ import { CLIENTS_ROUTE } from '../utils/consts';
 
 export const AuthLogin = observer(() => {
     const navigate = useNavigate();
-    const { setUser, setIsAuth } = useUserStore();
+    const { setUser, setIsAuth, IsAuth } = useUserStore();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (IsAuth) {
+            navigate('/');
+        }
+    }, [IsAuth, navigate]);
 
     const handleClick = async () => {
         try {
