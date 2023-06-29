@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.2.6",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
+    "jwt-decode": "^3.1.2",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^3.4.3",
     "react": "^18.2.0",
@@ -23,16 +24,70 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start && npm run lint",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-console": "warn",
+      "quotes": [
+        "warn",
+        "single"
+      ],
+      "jsx-quotes": [
+        "warn",
+        "prefer-double"
+      ],
+      "prefer-const": [
+        "warn"
+      ],
+      "indent": [
+        "warn",
+        4
+      ],
+      "max-len": [
+        "warn",
+        {
+          "code": 120
+        }
+      ],
+      "comma-dangle": [
+        "warn",
+        "always-multiline"
+      ],
+      "semi": [
+        "warn",
+        "always"
+      ],
+      "import/order": [
+        "warn",
+        {
+          "newlines-between": "always",
+          "groups": [
+            "builtin",
+            "external",
+            "parent",
+            "sibling",
+            "index"
+          ]
+        }
+      ],
+      "object-curly-spacing": [
+        "warn",
+        "always",
+        {
+          "arraysInObjects": false
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
