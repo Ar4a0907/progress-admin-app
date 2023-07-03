@@ -1,7 +1,8 @@
-import { makeAutoObservable } from 'mobx';
-import React from 'react';
+import { makeAutoObservable, toJS } from 'mobx';
 
-export type User = {} | {
+import AppStore from './AppStore';
+
+export type User = {
     email: string;
     exp: number;
     iat: number;
@@ -10,19 +11,26 @@ export type User = {} | {
 };
 
 export default class UserStore {
+    appStore;
     private isAuth = false;
-    private user: any = {};
+    private user = {} as User;
+    private allUsers: User[] = [];
 
-    constructor () {
+    constructor (appStore: AppStore) {
         makeAutoObservable(this, {}, { autoBind: true });
+        this.appStore = appStore;
     }
 
     setIsAuth(boolean: boolean) {
         this.isAuth = boolean;
     }
 
-    setUser(user: any) {
+    setUser(user: User) {
         this.user = user;
+    }
+
+    setAllUsers(users: User[]) {
+        this.allUsers = users;
     }
 
     get IsAuth() {
@@ -32,15 +40,8 @@ export default class UserStore {
     get User() {
         return this.user;
     }
-}
 
-export const UserStoreContext = React.createContext<UserStore | null>(null);
-export const userStore = new UserStore();
-
-export function useUserStore() {
-    const context = React.useContext(UserStoreContext);
-    if (!context) {
-        throw new Error('Wrap element with context first!');
+    get AllUsers() {
+        return toJS(this.allUsers);
     }
-    return context;
 }

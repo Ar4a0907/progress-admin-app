@@ -1,29 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
 
 import { AppRouter } from './components/AppRouter';
 import { NavBar } from './components/NavBar';
-import { check } from './http/userAPI';
-import { useUserStore } from './store/UserStore';
-
+import { useAppStore } from './store/AppStore';
 
 const App = observer(() => {
-    const { setUser, setIsAuth } = useUserStore();
-    const [loading, setLoading] = useState(true);
+    const { Loading } = useAppStore();
 
-    useEffect(() => {
-        check()
-            .then(data => {
-                setUser(data);
-                setIsAuth(true);
-            })
-            .catch(() => {})
-            .finally(() => setLoading(false));
-    }, []);
-
-    if (loading) {
+    if (Loading) {
         return <Spinner animation={'grow'}/>;
     }
 

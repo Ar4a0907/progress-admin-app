@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
-import { userStore, UserStoreContext } from './store/UserStore';
+import { appStore, AppStoreContext } from './store/AppStore';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement,
 );
 
 root.render(
-    <UserStoreContext.Provider value={ userStore }>
+    <AppStoreContext.Provider value={ appStore }>
         <App />
-    </UserStoreContext.Provider>,
+    </AppStoreContext.Provider>,
 );
 

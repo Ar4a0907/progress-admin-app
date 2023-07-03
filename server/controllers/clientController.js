@@ -3,8 +3,8 @@ const ApiError = require('../error/ApiError');
 
 class ClientController {
     async create(req, res) {
-        const { name } = req.body
-        const client = await Client.create({name})
+        const clientInfo = req.body
+        const client = await Client.create({ ...clientInfo })
         return res.json(client)
     }
 
@@ -17,10 +17,6 @@ class ClientController {
     async getAll(req, res) {
         const clients = await Client.findAll()
         return res.json(clients)
-    }
-
-    async getOne(req, res) {
-
     }
 }
 

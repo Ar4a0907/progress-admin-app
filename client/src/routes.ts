@@ -23,15 +23,15 @@ export const authRoutes = [
         path: CLIENTS_ROUTE + '/:id',
         Component: OneClient,
     },
-    {
-        path: REGISTRATION_ROUTE,
-        Component: AuthRegister,
-    },
 ];
 
 export const publicRoutes = [
     {
         path: LOGIN_ROUTE,
         Component: AuthLogin,
+    },
+    {
+        path: REGISTRATION_ROUTE,
+        Component: AuthRegister,
     },
 ];

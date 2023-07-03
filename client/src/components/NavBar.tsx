@@ -3,16 +3,17 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
-import { useUserStore } from '../store/UserStore';
 import { CLIENTS_ROUTE, LOGIN_ROUTE, USERS_ROUTE } from '../utils/consts';
+import { useAppStore } from '../store/AppStore';
+import { User } from '../store/UserStore';
 
 export const NavBar = observer(() => {
-    const { IsAuth, setIsAuth, setUser } = useUserStore();
+    const { userStore } = useAppStore();
     const navigate = useNavigate();
 
     const logOut = () => {
-        setIsAuth(false);
-        setUser({});
+        userStore.setIsAuth(false);
+        userStore.setUser({} as User);
         sessionStorage.removeItem('token');
         navigate(LOGIN_ROUTE);
     };
@@ -21,7 +22,7 @@ export const NavBar = observer(() => {
         <Navbar bg="dark" data-bs-theme="dark">
             <Container>
                 <Navbar.Brand href="/client">Progress App</Navbar.Brand>
-                {IsAuth ?
+                {userStore.IsAuth ?
                     (<Nav className="ml-auto">
                         <Button variant={'secondary'} href={USERS_ROUTE}>Пользователи</Button>
                         <Button variant={'secondary'} className="ms-4" href={CLIENTS_ROUTE}>Клиенты</Button>

@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import { registration } from '../http/userAPI';
-import { useUserStore } from '../store/UserStore';
 import { CLIENTS_ROUTE } from '../utils/consts';
+import { useAppStore } from '../store/AppStore';
+import { User } from '../store/UserStore';
 
 export const AuthRegister = observer(() => {
     const navigate = useNavigate();
-    const { setUser, setIsAuth } = useUserStore();
+    const { userStore } = useAppStore();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
@@ -17,8 +18,8 @@ export const AuthRegister = observer(() => {
     const handleClick = async () => {
         try {
             const data = await registration(email, password, role);
-            setUser(data);
-            setIsAuth(true);
+            userStore.setUser(data as User);
+            userStore.setIsAuth(true);
             navigate(CLIENTS_ROUTE);
         } catch ( e: any ) {
             alert(e.response.data.message);

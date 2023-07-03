@@ -1,35 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import { login } from '../http/userAPI';
-import { useUserStore } from '../store/UserStore';
 import { CLIENTS_ROUTE } from '../utils/consts';
+import { useAppStore } from '../store/AppStore';
+import { User } from '../store/UserStore';
 
 export const AuthLogin = observer(() => {
     const navigate = useNavigate();
-    const { setUser, setIsAuth, IsAuth } = useUserStore();
+    const { userStore } = useAppStore();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        if (IsAuth) {
-            navigate('/');
-        }
-    }, [IsAuth, navigate]);
 
     const handleClick = async () => {
         try {
             const data = await login(email, password);
-            setUser(data);
-            setIsAuth(true);
+            userStore.setUser(data as User);
+            userStore.setIsAuth(true);
             navigate(CLIENTS_ROUTE);
         } catch ( e: any ) {
             alert(e.response.data.message);
         }
     };
-
 
     return (
         <Container
