@@ -2,6 +2,18 @@ import { makeAutoObservable, toJS } from 'mobx';
 
 import AppStore from './AppStore';
 
+export type Managers = {
+    id: number;
+    name: string;
+    firm: string;
+    country: string;
+    city: string;
+    address: string;
+    postCode: string;
+    phone: string;
+    email: string;
+}
+
 export type Client = {
     accountNumber: string;
     address: string;
@@ -14,7 +26,7 @@ export type Client = {
     name: string;
     pvn: string;
     swift: string;
-    updatedAt?: string;
+    managers?: Managers[];
 };
 
 export default class ClientsStore {

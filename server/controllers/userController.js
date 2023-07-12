@@ -47,15 +47,26 @@ class UserController {
         return res.json({token})
     }
 
-    async delete(req, res) {
-        const { id } = req.body
-        const client = await User.destroy({ where: {id: id} })
-        return res.json(client)
+    async delete(req, res, next) {
+        try {
+            const { id } = req.body;
+            const user = await User.destroy({ where: { id: id } });
+            if (!user) {
+                throw ApiError.badRequest('Пользователь не найден');
+            }
+            return res.json(user);
+        } catch (error) {
+            next(error);
+        }
     }
 
     async getAll(req, res, next) {
-        const users = await User.findAll()
-        return res.json(users)
+        try {
+            const users = await User.findAll();
+            return res.json(users);
+        } catch (error) {
+            next(error);
+        }
     }
 }
 
