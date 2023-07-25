@@ -15,11 +15,11 @@ class ClientController {
     async delete(req, res, next) {
         try {
             const { id } = req.body;
+            await Manager.destroy({ where: { clientId: id } });
             const client = await Client.destroy({ where: { id: id } });
             if (!client) {
                 throw ApiError.badRequest('Клиент не найден');
             }
-            await Manager.destroy({ where: { clientId: id } });
             return res.json(client);
         } catch (error) {
             next(error);

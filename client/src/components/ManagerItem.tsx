@@ -4,8 +4,8 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 
 import { Managers } from '../store/ClientsStore';
 
-const ManagerItem = (props: { manager: Managers }) => {
-    const { manager } = props;
+const ManagerItem = (props: { manager: Managers, handleRemove: (id: number) => Promise<void>}) => {
+    const { manager, handleRemove } = props;
 
     return (
         <Card className="mt-2 mb-2" key={manager.id}>
@@ -27,6 +27,7 @@ const ManagerItem = (props: { manager: Managers }) => {
                             className="d-flex justify-content-center align-items-center h-auto p-2"
                             variant={ 'danger' }
                             title="Удалить менеджера"
+                            onClick={ () => handleRemove(manager.id) }
                         >
                             <FaRegTrashCan/>
                         </Button>

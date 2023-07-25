@@ -13,11 +13,16 @@ export const fetchClients = async () => {
 };
 
 export const fetchOneClient = async (id: number) => {
-    const { data } = await host.get(`api/client/${id}`);
-    const managers =  await fetchClientManagers(id);
-    const client = { ...data, managers };
-
-    return client;
+    try {
+        const { data } = await host.get(`api/client/${id}`);
+        const managers =  await fetchClientManagers(id);
+        const client = { ...data, managers };
+        return client;
+    } catch ( e ) {
+        // eslint-disable-next-line
+        console.log(e);
+        return null;
+    }
 };
 
 export const removeOneClient = async (id: number) => {

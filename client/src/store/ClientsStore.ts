@@ -32,6 +32,7 @@ export type Client = {
 export default class ClientsStore {
     appStore;
     private clients:  Client[] = [];
+    private currentClient: Client | null = null;
 
     constructor (appStore: AppStore) {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -40,6 +41,14 @@ export default class ClientsStore {
 
     setClients(clients: Client[]) {
         this.clients = clients;
+    }
+
+    setCurrentClient(client: Client | null) {
+        this.currentClient = client;
+    }
+
+    get CurrentClient() {
+        return toJS(this.currentClient);
     }
 
     get Clients() {
