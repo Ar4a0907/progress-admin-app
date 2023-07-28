@@ -33,9 +33,35 @@ const Manager = sequelize.define('manager', {
     email: { type: DataTypes.STRING, allowNull:false },
 });
 
+const Request = sequelize.define('request', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    clientId: { type: DataTypes.INTEGER },
+    pvn: { type: DataTypes.BOOLEAN, allowNull:false },
+    sum: { type: DataTypes.FLOAT, allowNull:false },
+    discount: { type: DataTypes.FLOAT, allowNull:false },
+    total: { type: DataTypes.FLOAT, allowNull:false }
+});
+
+const RequestRow = sequelize.define('request_row', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    article: { type: DataTypes.STRING },
+    description: { type: DataTypes.STRING },
+    count: { type: DataTypes.INTEGER, allowNull:false },
+    cost: { type: DataTypes.INTEGER, allowNull:false },
+    discount: { type: DataTypes.INTEGER, allowNull:false },
+    total: { type: DataTypes.INTEGER, allowNull:false },
+    file: { type: DataTypes.STRING }
+});
+
 Client.hasMany(Manager);
 Manager.belongsTo(Client);
 
+Manager.hasMany(Request);
+Request.belongsTo(Manager);
+
+Request.hasMany(RequestRow);
+RequestRow.belongsTo(Request);
+
 module.exports = {
-    User, Client, Manager
+    User, Client, Manager, Request, RequestRow
 }
