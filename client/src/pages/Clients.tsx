@@ -5,37 +5,36 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useAppStore } from '../store/AppStore';
 import { fetchClients, removeOneClient } from '../http/clientsAPI';
 import ClientItem from '../components/ClientItem';
-import RemoveClientModal from '../components/modals/RemoveClientModal';
 import AddClientModal from '../components/modals/AddClientModal';
+import RemoveModal from '../components/modals/RemoveModal';
+import { useRemoveItem } from '../hooks/useRemoveItem';
 
 export const Clients = observer(() => {
     const { clientsStore } = useAppStore();
-    const [removeClient, setRemoveClient] = useState<null| {id: number, name: string}>(null);
-    const [showRemove, setShowRemove] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
+    const [removeName, setRemoveName] = useState<string | null>(null);
 
     const fetchAllClients = useCallback(() => {
         fetchClients().then(data => clientsStore.setClients(data));
     }, [clientsStore]);
 
-    const handleRemove = async (id: number, name: string) => {
-        setRemoveClient({ id, name });
-        setShowRemove(true);
-    };
+    const {
+        removeItem,
+        showRemove,
+        setShowRemove,
+        removeAccept,
+        removeCancel,
+        handleRemove,
+    } = useRemoveItem(removeOneClient, fetchAllClients);
 
-    const removeAccept = async () => {
-        if (removeClient) {
-            await removeOneClient(removeClient.id);
+    useEffect(() => {
+        if (removeItem) {
+            const targetClient = clientsStore.Clients.find(client => client.id === removeItem);
+            if (targetClient) {
+                setRemoveName(targetClient.name);
+            }
         }
-        fetchAllClients();
-        setRemoveClient(null);
-        setShowRemove(false);
-    };
-
-    const removeCancel = () => {
-        setRemoveClient(null);
-        setShowRemove(false);
-    };
+    }, [removeItem, clientsStore.Clients]);
 
     useEffect(() => {
         fetchAllClients();
@@ -68,12 +67,13 @@ export const Clients = observer(() => {
                 showAdd={showAdd}
             />
 
-            <RemoveClientModal
+            <RemoveModal
                 showRemove={showRemove}
                 setShowRemove={setShowRemove}
-                removeClient={removeClient}
                 removeCancel={removeCancel}
                 removeAccept={removeAccept}
+                title={`Удалить клиента ${removeName}?`}
+                text="Вы действительно хотите удалить клиента без возможности вернуть его?"
             />
         </>
     );

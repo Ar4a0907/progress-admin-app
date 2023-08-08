@@ -20,7 +20,7 @@ export const login = async (email: string, password:string) => {
 };
 
 export const fetchUsers = async () => {
-    const { data } = await  host.get('api/user/');
+    const { data } = await  authHost.get('api/user/');
     return data;
 };
 
@@ -31,6 +31,6 @@ export const check = async () => {
 };
 
 export const removeOneUser = async (id: number) => {
-    const { data } = await host.delete('api/user/', { data: { id } } );
+    const { data } = await authHost.delete('api/user/', { data: { id } } );
     return data;
 };

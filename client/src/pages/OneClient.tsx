@@ -7,13 +7,16 @@ import { observer } from 'mobx-react-lite';
 import { fetchOneClient, removeOneManager } from '../http/clientsAPI';
 import ManagerItem from '../components/ManagerItem';
 import AddManagerModal from '../components/modals/AddManagerModal';
-import RemoveManagerModal from '../components/modals/RemoveManagerModal';
 import { CLIENTS_ROUTE } from '../utils/consts';
 import { useAppStore } from '../store/AppStore';
+import { useRemoveItem } from '../hooks/useRemoveItem';
+import RemoveModal from '../components/modals/RemoveModal';
 
 export const OneClient = observer(() => {
     const { clientsStore } = useAppStore();
     const { CurrentClient, setCurrentClient } = clientsStore;
+
+    const { id }  = useParams();
 
     const fetchCurrentClient = useCallback((id: string | undefined) => {
         if (id) {
@@ -22,29 +25,14 @@ export const OneClient = observer(() => {
     },[setCurrentClient]);
 
     const [showAdd, setShowAdd] = useState(false);
-    const [showRemove, setShowRemove] = useState(false);
-    const [removeManager, setRemoveManager] = useState<null | number>(null);
 
-    const { id }  = useParams();
-
-    const handleRemove = async (id: number) => {
-        setRemoveManager(id);
-        setShowRemove(true);
-    };
-
-    const removeAccept = async () => {
-        if (removeManager) {
-            await removeOneManager(removeManager);
-        }
-        fetchCurrentClient(id);
-        setShowRemove(false);
-        setRemoveManager(null);
-    };
-
-    const removeCancel = () => {
-        setShowRemove(false);
-        setRemoveManager(null);
-    };
+    const {
+        showRemove,
+        setShowRemove,
+        removeAccept,
+        removeCancel,
+        handleRemove,
+    } = useRemoveItem(removeOneManager, () => fetchCurrentClient(id));
 
     useEffect(() => {
         fetchCurrentClient(id);
@@ -155,11 +143,13 @@ export const OneClient = observer(() => {
                 clientId={id}
                 setClient={setCurrentClient}
             />
-            <RemoveManagerModal
+            <RemoveModal
                 showRemove={showRemove}
                 setShowRemove={setShowRemove}
                 removeCancel={removeCancel}
                 removeAccept={removeAccept}
+                text="Вы действительно хотите удалить менеджера без возможности вернуть его?"
+                title="Удалить менеджера?"
             />
         </>
     );

@@ -11,7 +11,7 @@ const UserItem = observer((props: {item: User, handleRemove: (id: number) => Pro
     const { userStore } = useAppStore();
 
     return (
-        <Card className="mt-2" key={item.id}>
+        <Card className="mt-2">
             <Card.Body>
                 <Row className="align-items-center">
                     <Col>

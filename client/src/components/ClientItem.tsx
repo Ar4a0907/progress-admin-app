@@ -9,7 +9,7 @@ const ClientItem = (props: { item: Client; handleRemove: (id: number, name: stri
     const { item, handleRemove } = props;
 
     return (
-        <Card className="mt-2" key={item.id}>
+        <Card className="mt-2">
             <Card.Body>
                 <Row className="align-items-center mb-2">
                     <Col>

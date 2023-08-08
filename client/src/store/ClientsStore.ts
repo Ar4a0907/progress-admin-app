@@ -12,6 +12,7 @@ export type Managers = {
     postCode: string;
     phone: string;
     email: string;
+    client?: Client;
 }
 
 export type Client = {

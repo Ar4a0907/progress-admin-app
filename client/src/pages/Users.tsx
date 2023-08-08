@@ -7,13 +7,12 @@ import { fetchUsers, removeOneUser } from '../http/userAPI';
 import { User } from '../store/UserStore';
 import UserItem from '../components/UserItem';
 import AddUserModal from '../components/modals/AddUserModal';
-import RemoveUserModal from '../components/modals/RemoveUserModal';
+import { useRemoveItem } from '../hooks/useRemoveItem';
+import RemoveModal from '../components/modals/RemoveModal';
 
 const Users = observer(() => {
     const { userStore } = useAppStore();
-    const [removeUser, setRemoveUser] = useState<null|number>(null);
     const [showAdd, setShowAdd] = useState(false);
-    const [showRemove, setShowRemove] = useState(false);
 
     const fetchAllUsers = useCallback(() => {
         fetchUsers().then(data => {
@@ -27,23 +26,13 @@ const Users = observer(() => {
         });
     }, [userStore]);
 
-    const removeAccept = async () => {
-        if (removeUser) {
-            await removeOneUser(removeUser);
-        }
-        await fetchAllUsers();
-        setShowRemove(false);
-        setRemoveUser(null);
-    };
-    const removeCancel = () => {
-        setShowRemove(false);
-        setRemoveUser(null);
-    };
-
-    const handleRemove = async (id: number) => {
-        setRemoveUser(id);
-        setShowRemove(true);
-    };
+    const {
+        showRemove,
+        setShowRemove,
+        removeAccept,
+        removeCancel,
+        handleRemove,
+    } = useRemoveItem(removeOneUser, fetchAllUsers);
 
     useEffect(() => {
         fetchAllUsers();
@@ -77,11 +66,13 @@ const Users = observer(() => {
                 setShowAdd={ setShowAdd }
                 showAdd={ showAdd }
             />
-            <RemoveUserModal
+            <RemoveModal
                 showRemove={showRemove}
                 setShowRemove={setShowRemove}
                 removeCancel={removeCancel}
                 removeAccept={removeAccept}
+                title="Удалить пользователя?"
+                text="Вы действительно хотите удалить пользователя без возможности вернуть его?"
             />
         </>
     );

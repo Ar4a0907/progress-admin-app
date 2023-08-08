@@ -8,7 +8,7 @@ const ManagerItem = (props: { manager: Managers, handleRemove: (id: number) => P
     const { manager, handleRemove } = props;
 
     return (
-        <Card className="mt-2 mb-2" key={manager.id}>
+        <Card className="mt-2 mb-2">
             <Card.Body>
                 <Row>
                     <Col>

@@ -35,21 +35,21 @@ const Manager = sequelize.define('manager', {
 
 const Request = sequelize.define('request', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    clientId: { type: DataTypes.INTEGER },
-    pvn: { type: DataTypes.BOOLEAN, allowNull:false },
-    sum: { type: DataTypes.FLOAT, allowNull:false },
-    discount: { type: DataTypes.FLOAT, allowNull:false },
-    total: { type: DataTypes.FLOAT, allowNull:false }
+    pvn: { type: DataTypes.BOOLEAN },
+    sum: { type: DataTypes.FLOAT },
+    discount: { type: DataTypes.FLOAT },
+    total: { type: DataTypes.FLOAT },
+    description: { type: DataTypes.STRING },
 });
 
-const RequestRow = sequelize.define('request_row', {
+const RequestRow = sequelize.define('requestRow', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     article: { type: DataTypes.STRING },
     description: { type: DataTypes.STRING },
-    count: { type: DataTypes.INTEGER, allowNull:false },
-    cost: { type: DataTypes.INTEGER, allowNull:false },
-    discount: { type: DataTypes.INTEGER, allowNull:false },
-    total: { type: DataTypes.INTEGER, allowNull:false },
+    count: { type: DataTypes.INTEGER },
+    cost: { type: DataTypes.FLOAT },
+    discount: { type: DataTypes.FLOAT },
+    total: { type: DataTypes.FLOAT },
     file: { type: DataTypes.STRING }
 });
 

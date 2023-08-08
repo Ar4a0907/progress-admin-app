@@ -5,10 +5,12 @@ import { check } from '../http/userAPI';
 
 import UserStore, { User } from './UserStore';
 import ClientsStore from './ClientsStore';
+import { RequestStore } from './RequestStore';
 
 export default class AppStore {
     userStore = new UserStore(this);
     clientsStore = new ClientsStore(this);
+    requestStore = new RequestStore(this);
     private loading = true;
 
     constructor () {

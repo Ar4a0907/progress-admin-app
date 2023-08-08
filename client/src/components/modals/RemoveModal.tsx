@@ -6,10 +6,13 @@ type PropsType = {
     setShowRemove:  React.Dispatch<React.SetStateAction<boolean>>;
     removeCancel: () => void;
     removeAccept: () => Promise<void>;
+    title: string;
+    text: string;
 }
 
-const RemoveManagerModal = (props: PropsType) => {
-    const { showRemove, setShowRemove, removeCancel, removeAccept } = props;
+const RemoveModal = (props: PropsType) => {
+    const { showRemove, setShowRemove, removeCancel, removeAccept, title, text } = props;
+
     return (
         <Modal
             centered
@@ -17,10 +20,10 @@ const RemoveManagerModal = (props: PropsType) => {
             onHide={ () => setShowRemove(false) }
         >
             <Modal.Header closeButton>
-                <Modal.Title>Удалить менеджера?</Modal.Title>
+                <Modal.Title>{ title }</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Вы действительно хотите удалить менеджера без возможности вернуть его?
+                { text }
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={ removeCancel }>
@@ -34,4 +37,4 @@ const RemoveManagerModal = (props: PropsType) => {
     );
 };
 
-export default RemoveManagerModal;
+export default RemoveModal;
